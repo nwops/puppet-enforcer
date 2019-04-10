@@ -9,6 +9,10 @@
     {
       "name": "nwops/debug",
       "version_requirement": ">= 0.1.1"
+    },
+    {
+      "name": "puppetlabs/powershell",
+      "version_requirement": "= 2.2.0"
     }
   ],
   "operatingsystem_support": [

@@ -5,3 +5,4 @@ fixtures:
   forge_modules:
     stdlib: "puppetlabs/stdlib"
     debug: "nwops/debug"
+    powershell: "puppetlabs/powershell"

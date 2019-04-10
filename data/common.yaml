@@ -1,5 +1,13 @@
 ---
 enforcer::included_policies:
-  -
-enforcer::excluded_policies:
-  -
+  - pol101
+  - pol102
+  - pol103
+enforcer::excluded_policies: []
+
+# https://puppet.com/docs/puppet/5.0/hiera_merging.html
+lookup_options:
+  enforcer::included_policies:
+    merge: unique
+  enforcer::excluded_policies:
+    merge: unique

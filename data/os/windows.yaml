@@ -1,1 +1,2 @@
 enforcer::ext_name: "ps1"
+enforcer::exec_provider: "windows"

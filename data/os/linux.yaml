@@ -1,1 +1,6 @@
 enforcer::ext_name: "sh"
+enforcer::exec_provider: "shell"
+enforcer::excluded_policies:
+  - pol103
+enforcer::included_policies:
+  - pol100

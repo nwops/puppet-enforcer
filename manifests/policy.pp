@@ -1,22 +1,22 @@
 define enforcer::policy(
-  $ext_name,
-  $policy_name = $name,
-
+  String $policy_name = $name,
 ) {
-  debug::break()
-  $enforce_script = file("modules/enforcer/files/${policy_name}_enforce.${ext_name}")
-  $validate_script = file("modules/enforcer/files/${policy_name}_validate.${ext_name}")
+  if $kernel == 'windows' {
+    $ext_name = 'ps1'
+    $exec_provider = 'powershell'
+  } else {
+    $ext_name = 'sh'
+    $exec_provider = 'shell'
+  }
 
-  exec{"${policy_name}_validate":
-    command => $validate_script,
-    notify  => Exec["${policy_name}_enforce"]
-  } 
+  $enforce_script = file("enforcer/${policy_name}_enforce.${ext_name}", '/dev/null')
+  $validate_script = file("enforcer/${policy_name}_validate.${ext_name}", '/dev/null')
 
-  # sometimes the enforce script takes a very long time to run
-  # so only do this if we must
+  # if validate returns 0 (passes) no need to trigger the enforcer command
   exec{"${policy_name}_enforce":
-    command => $enforce_script,
-    refreshonly => true
-  } 
-  
+    command  => $enforce_script,
+    unless   => $validate_script,
+    provider => $exec_provider,
+  }
+
 }
