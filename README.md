@@ -1,4 +1,3 @@
-
 # enforcer
 
 Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/pdk/latest/pdk_generating_modules.html .
@@ -9,18 +8,14 @@ The README template below provides a starting point with details about what info
 
 1. [Description](#description)
 2. [Setup - The basics of getting started with enforcer](#setup)
-    * [What enforcer affects](#what-enforcer-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with enforcer](#beginning-with-enforcer)
+   - [What enforcer affects](#what-enforcer-affects)
+   - [Setup requirements](#setup-requirements)
+   - [Beginning with enforcer](#beginning-with-enforcer)
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Limitations - OS compatibility, etc.](#limitations)
 5. [Development - Guide for contributing to the module](#development)
 
 ## Description
-
-Briefly tell users why they might want to use your module. Explain what your module does and what kind of problems users can solve with it.
-
-This should be a fairly short description helps the user decide if your module is what they want.
 
 ## Setup
 
@@ -30,9 +25,9 @@ If it's obvious what your module touches, you can skip this section. For example
 
 If there's more that they should know about, though, this is the place to mention:
 
-* Files, packages, services, or operations that the module will alter, impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+- Files, packages, services, or operations that the module will alter, impact, or execute.
+- Dependencies that your module automatically installs.
+- Warnings or other important notices.
 
 ### Setup Requirements **OPTIONAL**
 
@@ -56,10 +51,10 @@ If you aren't ready to use Strings yet, manually create a REFERENCE.md in the ro
 
 For each element (class, defined type, function, and so on), list:
 
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
+- The data type, if applicable.
+- A description of what the element does.
+- Valid values, if the data type doesn't make it obvious.
+- Default value, if any.
 
 For example:
 
@@ -85,4 +80,4 @@ In the Development section, tell other users the ground rules for contributing t
 
 ## Release Notes/Contributors/Etc. **Optional**
 
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.
+If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `##` header.

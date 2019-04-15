@@ -29,6 +29,12 @@ group :development do
   gem "puppet-module-win-dev-r#{minor_version}",       require: false, platforms: [:mswin, :mingw, :x64_mingw]
   gem 'puppet-debugger', require: false
   gem 'rb-readline'
+  gem 'test-kitchen'
+  gem 'librarian-puppet'
+  gem 'kitchen-puppet'
+  gem 'kitchen-docker'
+  #gem 'kitchen-verifier-serverspec'
+  gem 'kitchen-inspec'
 end
 
 puppet_version = ENV['PUPPET_GEM_VERSION']

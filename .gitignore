@@ -25,3 +25,5 @@
 .project
 .envrc
 /inventory.yaml
+.kitchen/
+.kitchen.local.yml

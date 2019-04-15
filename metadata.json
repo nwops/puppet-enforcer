@@ -2,7 +2,7 @@
   "name": "nwops-enforcer",
   "version": "0.1.0",
   "author": "corey@nwops.io",
-  "summary": "",
+  "summary": "Test module for applying security policies",
   "license": "Apache-2.0",
   "source": "",
   "dependencies": [
