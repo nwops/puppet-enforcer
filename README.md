@@ -154,3 +154,13 @@ class enforcer::tomcat::tom101(
 }
 
 ```
+
+You will also need to declare which policies you want enforced via hiera data.
+
+```yaml
+enforcer::tomcat::included_policies:
+  - pol101
+  - pol102
+enforcer::tomcat::excluded_policies:
+  - pol102
+```
