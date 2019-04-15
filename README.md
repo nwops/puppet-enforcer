@@ -72,3 +72,84 @@ lookup_options:
   enforcer::excluded_policies::tomcat:
     merge: unique
 ```
+
+## Creating a new policy
+
+In order to create a new policy you need a few things:
+
+1. policy number
+2. application or operating system scope
+3. how to enforce
+4. how to validate
+
+Once you have these items you can generate puppet code in the following ways.
+
+### Generic defined type policy
+
+This method is the simplest of the two and actually requires no puppet coding. Simply create
+the associated OS specific validate and enforce scripts and place them in the files directory.
+
+The file names **MUST BE NAMED ACCORDINGLY** <policyname><enforce_or_validate><script_extension>
+
+The enforce script will enforce the policy while the validate script will validate the system has the policy enforced. Each script must return a 0 or 1 upon success/failure.
+
+```
+files
+├── pol101_enforce.ps1
+├── pol101_enforce.sh
+├── pol101_validate.ps1
+├── pol101_validate.sh
+├── pol102_enforce.ps1
+├── pol102_enforce.sh
+├── pol102_validate.ps1
+├── pol102_validate.sh
+├── pol103_enforce.ps1
+├── pol103_enforce.sh
+├── pol103_validate.ps1
+└── pol103_validate.sh
+```
+
+Creating these files
+alone does not enforce the policy on the system as you must also add the policy number to the list
+of included policies in hieradata.
+
+```yaml
+enforcer::included_policies:
+  - pol101
+```
+
+### Application or complex policy
+
+Some policies will require more than a simple script to enforce. For this reason we will
+need to create unique classes for each policy with additional resources in each class. This will often be more time consuming up front but also offer better idempotent puppet runs.
+
+For each application or policy type you will need to create a base class with two parameters and similar code to create the enforced_policies:
+
+```ruby
+class enforcer::tomcat(
+  Array[String] $included_policies,
+  Array[String] $excluded_policies,
+){
+  $enforced_policies = $included_policies - $excluded_policies
+  $enforced_policies.each |String $policy| {
+    $klass_name = "enforcer::tomcat::${policy}"
+    class{$klass_name:
+      tag      => [$policy, 'policy', 'tomcat']
+    }
+  }
+}
+
+```
+
+This base class will subtract the excluded from the included policies and then declare
+all the policy classes for that policy type. You will need to create a puppet class that specifically enforces that policy like so.
+
+```ruby
+class enforcer::tomcat::tom101(
+
+) {
+  file{'/tmp/tom101.txt': ensure => present}
+
+}
+
+```
