@@ -89,7 +89,8 @@ Once you have these items you can generate puppet code in the following ways.
 This method is the simplest of the two and actually requires no puppet coding. Simply create
 the associated OS specific validate and enforce scripts and place them in the files directory.
 
-The file names **MUST BE NAMED ACCORDINGLY** <policyname><enforce_or_validate><script_extension>
+The file names **MUST BE NAMED ACCORDINGLY**
+`<policyname><enforce_or_validate>.<script_extension>`
 
 The enforce script will enforce the policy while the validate script will validate the system has the policy enforced. Each script must return a 0 or 1 upon success/failure.
 
