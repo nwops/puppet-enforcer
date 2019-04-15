@@ -1,83 +1,74 @@
 # enforcer
 
-Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/pdk/latest/pdk_generating_modules.html .
+## Summary
 
-The README template below provides a starting point with details about what information to include in your README.
-
-#### Table of Contents
-
-1. [Description](#description)
-2. [Setup - The basics of getting started with enforcer](#setup)
-   - [What enforcer affects](#what-enforcer-affects)
-   - [Setup requirements](#setup-requirements)
-   - [Beginning with enforcer](#beginning-with-enforcer)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Limitations - OS compatibility, etc.](#limitations)
-5. [Development - Guide for contributing to the module](#development)
-
-## Description
-
-## Setup
-
-### What enforcer affects **OPTIONAL**
-
-If it's obvious what your module touches, you can skip this section. For example, folks can probably figure out that your mysql_instance module affects their MySQL instances.
-
-If there's more that they should know about, though, this is the place to mention:
-
-- Files, packages, services, or operations that the module will alter, impact, or execute.
-- Dependencies that your module automatically installs.
-- Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled, another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps for upgrading, you might want to include an additional "Upgrading" section here.
-
-### Beginning with enforcer
-
-The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
+Applies security policies to system based on included/excluded policies.
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your users how to use your module to solve problems, and be sure to include code examples. Include three to five examples of the most important or common tasks a user can accomplish with your module. Show users how to accomplish more complex tasks that involve different types, classes, and functions working in tandem.
+There are two ways to use the module.
 
-## Reference
+- enforce all the generic system level policies that can be run without further modification
+- enforce application specific policies that require some application to be installed first
 
-This section is deprecated. Instead, add reference information to your code as Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your module. For details on how to add code comments and generate documentation with Strings, see the Puppet Strings [documentation](https://puppet.com/docs/puppet/latest/puppet_strings.html) and [style guide](https://puppet.com/docs/puppet/latest/puppet_strings_style.html)
+### OS Level
 
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the root of your module directory and list out each of your module's classes, defined types, facts, functions, Puppet tasks, task plans, and resource types and providers, along with the parameters for each.
+`include enforcer`
 
-For each element (class, defined type, function, and so on), list:
+### Application Specific
 
-- The data type, if applicable.
-- A description of what the element does.
-- Valid values, if the data type doesn't make it obvious.
-- Default value, if any.
+`include enforcer::tomcat`
 
-For example:
+## Unit testing
 
+`bundle exec rake spec`
+
+## Acceptance Testing
+
+Testing of this code is done via test kitchen and inspec. At this time there are no valid tests. However the kitchen file was create for future use.
+
+`kitchen test`
+
+## Including / Excluding Security Policies
+
+Custom policy selection is enforced via hiera data at the module and other tiers. By default
+the module tier will set the initial defaults unless otherwise specified in global or environment tiers.
+
+You can exclude certain policies by simpling adding the policy number to the exclusion list or by ommitting them entirely from the inclusion list.
+
+```yaml
+enforcer::excluded_policies:
+  - pol101
+
+enforcer::tomcat::excluded_policies:
+  - pol102
 ```
-### `pet::cat`
 
-#### Parameters
+Conversely, you can include policies by adding them to the list. Any policy that exist in both lists will not be present in the resultant set.
 
-##### `meow`
-
-Enables vocalization in your cat. Valid options: 'string'.
-
-Default: 'medium-loud'.
+```yaml
+enforcer::tomcat::included_policies:
+  - pol101
+  - pol102
+enforcer::included_policies:
+  - pol101
+  - pol102
+  - pol103
 ```
 
-## Limitations
+### Special Merge Behavior
 
-In the Limitations section, list any incompatibilities, known issues, or other warnings.
+Policy lists will be merged together across all hiera levels to allow for simpler inclusion/exclusion lists. This means that if a exclusion or inclusion list exists in more than
+one level for a hiera lookup, that list will be merge together. This might be useful for datacenter, node and app levels.
 
-## Development
-
-In the Development section, tell other users the ground rules for contributing to your project and how they should submit their work.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `##` header.
+```yaml
+lookup_options:
+  enforcer::included_policies:
+    merge: unique
+  enforcer::excluded_policies:
+    merge: unique
+  enforcer::included_policies::tomcat:
+    merge: unique
+  enforcer::excluded_policies::tomcat:
+    merge: unique
+```

@@ -5,9 +5,19 @@ enforcer::included_policies:
   - pol103
 enforcer::excluded_policies: []
 
+enforcer::tomcat::included_policies:
+  - pol101
+  - pol102
+enforcer::tomcat::excluded_policies:
+  - pol102
+
 # https://puppet.com/docs/puppet/5.0/hiera_merging.html
 lookup_options:
   enforcer::included_policies:
     merge: unique
   enforcer::excluded_policies:
+    merge: unique
+  enforcer::included_policies::tomcat:
+    merge: unique
+  enforcer::excluded_policies::tomcat:
     merge: unique
