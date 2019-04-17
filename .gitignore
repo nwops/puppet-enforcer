@@ -1,4 +1,6 @@
 .git/
+Puppetfile.lock
+.librarian
 .*.sw[op]
 .metadata
 .yardoc
@@ -27,3 +29,5 @@
 /inventory.yaml
 .kitchen/
 .kitchen.local.yml
+.tmp/
+modules/

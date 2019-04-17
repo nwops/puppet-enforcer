@@ -35,6 +35,9 @@ group :development do
   gem 'kitchen-docker'
   #gem 'kitchen-verifier-serverspec'
   gem 'kitchen-inspec'
+  gem 'kitchen-sync'
+  gem 'librarian-puppet'
+
 end
 
 puppet_version = ENV['PUPPET_GEM_VERSION']

@@ -2,15 +2,20 @@
 driver:
   name: docker
   require_chef_omnibus: false
+  driver_config:
+    platform: centos
 
 provisioner:
   name: puppet_apply
-  #puppet_apt_repo:
+  custom_facts:
+    datacenter: "datacenter_a"
   manifests_path: examples
-  manifest: examples.pp
+  manifest: everything.pp
+  #hiera_deep_merge: true
   require_chef_for_busser: false
+  require_puppet_repo: false
   modules_path: spec/fixtures/modules
-  puppet_debug: true
+  puppet_debug: false
   puppet_verbose: true
   install_custom_facts: true
   puppet_detailed_exitcodes: true
@@ -22,22 +27,30 @@ provisioner:
     - 6
   max_retries: 2
 
+transport:
+  name: sftp
+  ruby_path: /opt/puppetlabs/puppet/bin/ruby
+
 verifier:
   name: inspec
   sudo: true
 
 platforms:
-  - name: ubuntu-18.04
-    driver_config:
-      image: ubuntu:18.04
-      platform: ubuntu
   - name: centos-7
+    provisioner:
+      puppet_yum_collections_repo: https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+      puppet_yum_repo: https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
     driver_config:
-      image: centos:latest
-      platform: centos
+      image: centos_wf:7
+  - name: centos-6
+    provisioner:
+      puppet_yum_collections_repo: https://yum.puppetlabs.com/puppet5/puppet5-release-el-6.noarch.rpm
+      puppet_yum_repo: https://yum.puppetlabs.com/puppet5/puppet5-release-el-6.noarch.rpm
+    driver_config:
+      image: centos_wf:6
 
 suites:
-  - name: default
-    verifier:
-      inspec_tests:
-        - name: default
+  - name: tomcat
+    # verifier:
+    #   inspec_tests:
+    #     - name: tomcat

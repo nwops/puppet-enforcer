@@ -1,0 +1,5 @@
+FROM centos:7
+RUN rpm -ivh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+RUN yum install -y sudo openssh-server openssh-clients which curl puppet-agent
+
+
