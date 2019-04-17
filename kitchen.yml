@@ -1,18 +1,18 @@
 ---
 driver:
   name: docker
+  require_chef_omnibus: false
 
 provisioner:
   name: puppet_apply
-  puppet_environment: dev
-  # the puppet environment files can be in this repository
-  # puppet_environment_config_path: environment/dev/environment.conf
-  manifests_path: spec/fixtures/manifests
+  #puppet_apt_repo:
+  manifests_path: examples
+  manifest: examples.pp
+  require_chef_for_busser: false
   modules_path: spec/fixtures/modules
   puppet_debug: true
   puppet_verbose: true
   install_custom_facts: true
-  ignored_paths_from_root: []
   puppet_detailed_exitcodes: true
   puppet_whitelist_exit_code:
     - 2
@@ -21,7 +21,6 @@ provisioner:
     - 4
     - 6
   max_retries: 2
-  hiera_data_path: data
 
 verifier:
   name: inspec
@@ -41,5 +40,4 @@ suites:
   - name: default
     verifier:
       inspec_tests:
-        - name: ssh-hardening
-          url: https://github.com/dev-sec/tests-ssh-hardening
+        - name: default
